@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,18 @@ public class ApplicationController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Application> updateApplicationStatus(
+            @PathVariable("id") int id,
+            @RequestBody Map<String, String> updates) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+        String applicationStatus = updates.get("applicationStatus");
+        application.setApplicationStatus(applicationStatus);
+        Application updatedApplication = applicationRepository.save(application);
+        return ResponseEntity.ok(updatedApplication);
     }
 
     @DeleteMapping("/{id}")
