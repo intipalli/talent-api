@@ -9,3 +9,4 @@ public class TalentApiApplication {
         SpringApplication.run(TalentApiApplication.class, args);
     }
 }
+
